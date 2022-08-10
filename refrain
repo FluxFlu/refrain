@@ -68,55 +68,55 @@ fs.copyDir = (src, dest) => {
 if (type.toLowerCase() == "create") {
     console.log("Creating new project...")
     const projectName = name ?? "newProject";
-    if (!tfs.existsSync(`./${projectName}`) || !fs.access(`./${projectName}`))
-        fs.mkdir(`./${projectName}`).then(() => {
-            fs.writeFile(`./${projectName}/gameProperties.json`, '{\n\t"turn": 0\n}');
-            fs.writeFile(`./${projectName}/playerProperties.json`, '{\n\t"life": 20,\n\t"deck": [],\n\t"field": [],\n\t"graveyard": [],\n\t"hand": [],\n\t"max_hand_size": 7,\n\t"juice": 0\n}');
-            fs.writeFile(`./${projectName}/cardProperties.json`, '[\n\t"name",\n\t"cost",\n\t"type",\n\t"effect"\n]');
-            fs.writeFile(`./${projectName}/properties.json`, `{\n\t"name_of_card_game": "${projectName}",\n\t"package_lock_name": "${snakeCase(projectName)}",\n\t"version": "1.0.0",\n\t"description": "Example Description.",\n\t"author": "Example Author."\n}`);
-            fs.mkdir(`./${projectName}/visuals`).then(() => {
-                fs.mkdir(`./${projectName}/visuals/assets`).then(() => {
-                    fs.copyFile(`${__dirname}/RFR/public/assets/title.png`, `./${projectName}/visuals/assets/title.png`);
-                    fs.copyFile(`${__dirname}/RFR/public/assets/board.png`, `./${projectName}/visuals/assets/board.png`);
-                    fs.copyFile(`${__dirname}/RFR/public/assets/cardBack.png`, `./${projectName}/visuals/assets/cardBack.png`);
+    if (!tfs.existsSync(`${projectName}`) || !fs.access(`${projectName}`))
+        fs.mkdir(`${projectName}`).then(() => {
+            fs.writeFile(`${projectName}/gameProperties.json`, '{\n\t"turn": 0\n}');
+            fs.writeFile(`${projectName}/playerProperties.json`, '{\n\t"life": 20,\n\t"deck": [],\n\t"field": [],\n\t"graveyard": [],\n\t"hand": [],\n\t"max_hand_size": 7,\n\t"juice": 0\n}');
+            fs.writeFile(`${projectName}/cardProperties.json`, '[\n\t"name",\n\t"cost",\n\t"type",\n\t"effect"\n]');
+            fs.writeFile(`${projectName}/properties.json`, `{\n\t"name_of_card_game": "${projectName}",\n\t"package_lock_name": "${snakeCase(projectName)}",\n\t"version": "1.0.0",\n\t"description": "Example Description.",\n\t"author": "Example Author."\n}`);
+            fs.mkdir(`${projectName}/visuals`).then(() => {
+                fs.mkdir(`${projectName}/visuals/assets`).then(() => {
+                    fs.copyFile(`${__dirname}/RFR/public/assets/title.png`, `${projectName}/visuals/assets/title.png`);
+                    fs.copyFile(`${__dirname}/RFR/public/assets/board.png`, `${projectName}/visuals/assets/board.png`);
+                    fs.copyFile(`${__dirname}/RFR/public/assets/cardBack.png`, `${projectName}/visuals/assets/cardBack.png`);
                 });
-                fs.writeFile(`./${projectName}/visuals/screen.json`, `{\n\t"matchmaking_button_text": "Queue for matchmaking",\n\t"background_color": "#111",\n\t"window_width": "1920",\n\t"window_height": "1080"\n}`);
-                fs.writeFile(`./${projectName}/visuals/cards.json`, `{\n\t"name": "",\n\t"width": 7,\n\t"height": 20,\n\t"visible": false,\n\t"owner": 0\n}`);
-                fs.mkdir(`./${projectName}/visuals/rendering`).then(() => {
-                    fs.copyFile(`${__dirname}/RFR/public/js/outward/renderField.mjs`, `./${projectName}/visuals/rendering/renderField.js`);
+                fs.writeFile(`${projectName}/visuals/screen.json`, `{\n\t"matchmaking_button_text": "Queue for matchmaking",\n\t"background_color": "#111",\n\t"window_width": "1920",\n\t"window_height": "1080"\n}`);
+                fs.writeFile(`${projectName}/visuals/cards.json`, `{\n\t"name": "",\n\t"width": 7,\n\t"height": 20,\n\t"visible": false,\n\t"owner": 0\n}`);
+                fs.mkdir(`${projectName}/visuals/rendering`).then(() => {
+                    fs.copyFile(`${__dirname}/RFR/public/js/outward/renderField.mjs`, `${projectName}/visuals/rendering/renderField.js`);
                 });
             })
-            fs.mkdir(`./${projectName}/sets`).then(() => {
-                fs.mkdir(`./${projectName}/sets/exampleSetOne`).then(() => {
-                    fs.mkdir(`./${projectName}/sets/exampleSetOne/cards`).then(() => {
-                        fs.writeFile(`./${projectName}/sets/exampleSetOne/cards/abracadabra.json`, '{\n\t"name": "Abracadabra",\n\t"cost": 1,\n\t"type": "Spell",\n\t"effect": "Draw two cards."\n}');
-                        fs.writeFile(`./${projectName}/sets/exampleSetOne/cards/lotus_flower.json`, '{\n\t"name": "Lotus Flower",\n\t"cost": 0,\n\t"type": "Wildlife",\n\t"effect": "At the beginning of each of your turns, add three juice to your juice pool."\n}');
+            fs.mkdir(`${projectName}/sets`).then(() => {
+                fs.mkdir(`${projectName}/sets/exampleSetOne`).then(() => {
+                    fs.mkdir(`${projectName}/sets/exampleSetOne/cards`).then(() => {
+                        fs.writeFile(`${projectName}/sets/exampleSetOne/cards/abracadabra.json`, '{\n\t"name": "Abracadabra",\n\t"cost": 1,\n\t"type": "Spell",\n\t"effect": "Draw two cards."\n}');
+                        fs.writeFile(`${projectName}/sets/exampleSetOne/cards/lotus_flower.json`, '{\n\t"name": "Lotus Flower",\n\t"cost": 0,\n\t"type": "Wildlife",\n\t"effect": "At the beginning of each of your turns, add three juice to your juice pool."\n}');
                     });
-                    fs.mkdir(`./${projectName}/sets/exampleSetOne/art`).then(() => {
-                        fs.copyFile(`${__dirname}/RFR/public/cardArt/lotus_flower.png`, `./${projectName}/sets/exampleSetOne/art/lotus_flower.png`);
-                        fs.copyFile(`${__dirname}/RFR/public/cardArt/abracadabra.png`, `./${projectName}/sets/exampleSetOne/art/abracadabra.png`);
+                    fs.mkdir(`${projectName}/sets/exampleSetOne/art`).then(() => {
+                        fs.copyFile(`${__dirname}/RFR/public/cardArt/lotus_flower.png`, `${projectName}/sets/exampleSetOne/art/lotus_flower.png`);
+                        fs.copyFile(`${__dirname}/RFR/public/cardArt/abracadabra.png`, `${projectName}/sets/exampleSetOne/art/abracadabra.png`);
                     });
-                    fs.mkdir(`./${projectName}/sets/exampleSetOne/code`).then(() => {
-                        fs.writeFile(`./${projectName}/sets/exampleSetOne/code/abracadabra.js`, 'return {\n\tname: "Abracadabra",\n\tcost: 1,\n\ttype: "Spell",\n\tspellCast: (game, player) => {\n\t\tplayer.drawMultiple(player.num, 2);\n\t}\n}');
-                        fs.writeFile(`./${projectName}/sets/exampleSetOne/code/lotus_flower.js`, 'return {\n\tname: "Lotus Flower",\n\tcost: 0,\n\ttype: "Wildlife",\n\tonBeginning: (game, player) => {\n\t\tplayer.juice += 3;\n\t}\n}');
+                    fs.mkdir(`${projectName}/sets/exampleSetOne/code`).then(() => {
+                        fs.writeFile(`${projectName}/sets/exampleSetOne/code/abracadabra.js`, 'return {\n\tname: "Abracadabra",\n\tcost: 1,\n\ttype: "Spell",\n\tspellCast: (game, player) => {\n\t\tplayer.drawMultiple(player.num, 2);\n\t}\n}');
+                        fs.writeFile(`${projectName}/sets/exampleSetOne/code/lotus_flower.js`, 'return {\n\tname: "Lotus Flower",\n\tcost: 0,\n\ttype: "Wildlife",\n\tonBeginning: (game, player) => {\n\t\tplayer.juice += 3;\n\t}\n}');
                     });
                 });
-                fs.mkdir(`./${projectName}/sets/exampleSetTwo`).then(() => {
-                    fs.mkdir(`./${projectName}/sets/exampleSetTwo/cards`).then(() => {
-                        fs.writeFile(`./${projectName}/sets/exampleSetTwo/cards/alakazam.json`, '{\n\t"name": "Alakazam",\n\t"cost": 1,\n\t"type": "Spell",\n\t"effect": "Destroy target wildlife."\n}');
-                        fs.writeFile(`./${projectName}/sets/exampleSetTwo/cards/white_rose.json`, '{\n\t"name": "White Rose",\n\t"cost": 3,\n\t"type": "Wildlife",\n\t"effect": "At the end of each of your turns, you may pay 2 juice to destroy target wildlife."\n}');
+                fs.mkdir(`${projectName}/sets/exampleSetTwo`).then(() => {
+                    fs.mkdir(`${projectName}/sets/exampleSetTwo/cards`).then(() => {
+                        fs.writeFile(`${projectName}/sets/exampleSetTwo/cards/alakazam.json`, '{\n\t"name": "Alakazam",\n\t"cost": 1,\n\t"type": "Spell",\n\t"effect": "Destroy target wildlife."\n}');
+                        fs.writeFile(`${projectName}/sets/exampleSetTwo/cards/white_rose.json`, '{\n\t"name": "White Rose",\n\t"cost": 3,\n\t"type": "Wildlife",\n\t"effect": "At the end of each of your turns, you may pay 2 juice to destroy target wildlife."\n}');
                     });
-                    fs.mkdir(`./${projectName}/sets/exampleSetTwo/art`).then(() => {
-                        fs.copyFile(`${__dirname}/RFR/public/cardArt/alakazam.png`, `./${projectName}/sets/exampleSetTwo/art/alakazam.png`);
-                        fs.copyFile(`${__dirname}/RFR/public/cardArt/white_rose.png`, `./${projectName}/sets/exampleSetTwo/art/white_rose.png`);
+                    fs.mkdir(`${projectName}/sets/exampleSetTwo/art`).then(() => {
+                        fs.copyFile(`${__dirname}/RFR/public/cardArt/alakazam.png`, `${projectName}/sets/exampleSetTwo/art/alakazam.png`);
+                        fs.copyFile(`${__dirname}/RFR/public/cardArt/white_rose.png`, `${projectName}/sets/exampleSetTwo/art/white_rose.png`);
                     });
-                    fs.mkdir(`./${projectName}/sets/exampleSetTwo/code`).then(() => {
-                        fs.writeFile(`./${projectName}/sets/exampleSetTwo/code/alakazam.js`, 'return {\n\tname: "Alakazam",\n\tcost: 1,\n\ttype: "Spell",\n\tspellCast: (game, player) => {\n\t\t/*Not yet functional. Come back later.*/\n\t}\n}');
-                        fs.writeFile(`./${projectName}/sets/exampleSetTwo/code/white_rose.js`, 'return {\n\tname: "White Rose",\n\tcost: 3,\n\ttype: "Wildlife",\n\tonEnd: (game, player) => {\n\t\t/*Not yet functional. Come back later.*/\n\t}\n}');
+                    fs.mkdir(`${projectName}/sets/exampleSetTwo/code`).then(() => {
+                        fs.writeFile(`${projectName}/sets/exampleSetTwo/code/alakazam.js`, 'return {\n\tname: "Alakazam",\n\tcost: 1,\n\ttype: "Spell",\n\tspellCast: (game, player) => {\n\t\t/*Not yet functional. Come back later.*/\n\t}\n}');
+                        fs.writeFile(`${projectName}/sets/exampleSetTwo/code/white_rose.js`, 'return {\n\tname: "White Rose",\n\tcost: 3,\n\ttype: "Wildlife",\n\tonEnd: (game, player) => {\n\t\t/*Not yet functional. Come back later.*/\n\t}\n}');
                     });
                 });
             });
-            fs.copyDir(`${__dirname}/RFR/private/outward`, `./${projectName}/game`);
+            fs.copyDir(`${__dirname}/RFR/private/outward`, `${projectName}/game`);
         });
 }
 if (type.toLowerCase() == "compile") {
@@ -138,32 +138,32 @@ if (type.toLowerCase() == "compile") {
     
     const projectName = name ? name : "./";
     filteredProjectName = projectName.replaceAll("../", "./");
-    fs.readdir(`./${projectName}`).then(project => {
-        fs.readFile(`./${projectName}/properties.json`, "utf-8").then(properties => {
+    fs.readdir(`${projectName}`).then(project => {
+        fs.readFile(`${projectName}/properties.json`, "utf-8").then(properties => {
             properties = JSON.parse(properties);
             originalProjectName = properties["name_of_card_game"] ?? originalProjectName;
         });
-        fs.readFile(`./${projectName}/gameProperties.json`, "utf-8").then(properties => {
+        fs.readFile(`${projectName}/gameProperties.json`, "utf-8").then(properties => {
             gameJson = JSON.parse(properties);
         });
-        fs.readFile(`./${projectName}/playerProperties.json`, "utf-8").then(properties => {
+        fs.readFile(`${projectName}/playerProperties.json`, "utf-8").then(properties => {
             playerJson = JSON.parse(properties);
         });
-        fs.readFile(`./${projectName}/game/playerMethods/methods.json`, "utf-8").then(methods => {
+        fs.readFile(`${projectName}/game/playerMethods/methods.json`, "utf-8").then(methods => {
             playerMethods = JSON.parse(methods);
         });
-        fs.readFile(`./${projectName}/cardProperties.json`, "utf-8").then(properties => {
+        fs.readFile(`${projectName}/cardProperties.json`, "utf-8").then(properties => {
             projectProperties = JSON.parse(properties);
         });
-        fs.readdir(`./${projectName}/visuals`).then(project => {
+        fs.readdir(`${projectName}/visuals`).then(project => {
             if (project.includes("cards.json"))
-                fs.readFile(`./${projectName}/visuals/cards.json`, "utf-8").then(properties => {
+                fs.readFile(`${projectName}/visuals/cards.json`, "utf-8").then(properties => {
                     cardsJson = JSON.parse(properties);
                 })
         });
-        fs.readdir(`./${projectName}/visuals`).then(project => {
+        fs.readdir(`${projectName}/visuals`).then(project => {
             if (project.includes("screen.json"))
-                fs.readFile(`./${projectName}/visuals/screen.json`, "utf-8").then(properties => {
+                fs.readFile(`${projectName}/visuals/screen.json`, "utf-8").then(properties => {
                     screenJson = JSON.parse(properties);
                 })
         });
@@ -171,7 +171,7 @@ if (type.toLowerCase() == "compile") {
             fs.readFile(`${__dirname}/RFR/public/index.ktml`, "utf-8").then(index => {
                 const width_over_height = +screenJson.window_width / +screenJson.window_height * 100;
                 const height_over_width = +screenJson.window_height / +screenJson.window_width * 100;
-                fs.writeFile(`./${projectName}/out/${filteredProjectName}/public/index.html`, index
+                fs.writeFile(`${projectName}/out/${filteredProjectName}/public/index.html`, index
                     .replace("${projectName}", originalProjectName)
                     .replace("${matchmaking}", screenJson.matchmaking_button_text)
                     .replace("${background_color}", screenJson.background_color)
@@ -185,78 +185,79 @@ if (type.toLowerCase() == "compile") {
             });
         }
         const sets = () => {
-            fs.readdir(`./${projectName}/sets`).then(sets => {
+            fs.readdir(`${projectName}/sets`).then(sets => {
                 sets.forEach(set => {
-                    fs.readdir(`./${projectName}/sets/${set}/art`).then(artworks => {
+                    fs.readdir(`${projectName}/sets/${set}/art`).then(artworks => {
                         artworks.forEach(art =>
-                            fs.copyFile(`./${projectName}/sets/${set}/art/${art}`, `./${projectName}/out/${filteredProjectName}/public/cardArt/${art}`)
+                            fs.copyFile(`${projectName}/sets/${set}/art/${art}`, `${projectName}/out/${filteredProjectName}/public/cardArt/${art}`)
                         );
                     });
-                    fs.readdir(`./${projectName}/sets/${set}/code`).then(codeArray => {
+                    fs.readdir(`${projectName}/sets/${set}/code`).then(codeArray => {
                         codeArray.forEach(files => 
-                            fs.readFile(`./${projectName}/sets/${set}/code/${files}`, "utf-8").then(code => 
+                            fs.readFile(`${projectName}/sets/${set}/code/${files}`, "utf-8").then(code => 
                                 cardCode.push(code.replace("return ", `"${snakeCase(code.match(/(?<=(,|{)\s?(\r\n|\n|\r)\s*name: ?").*(?=",$)/gm)[0])}": `) + '\n')
                             )
                         );
                         fs.readFile(`${__dirname}/RFR/private/gameDatabase.js`, "utf-8").then(other => 
-                            fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/gameDatabase.js`, other.replace("${card_list}", '\n' + cardCode.join(',')))
+                            fs.writeFile(`${projectName}/out/${filteredProjectName}/private/gameDatabase.js`, other.replace("${card_list}", '\n' + cardCode.join(',')))
                         );
                     });
-                    fs.readdir(`./${projectName}/sets/${set}/cards`).then(cardArray => {
+                    fs.readdir(`${projectName}/sets/${set}/cards`).then(cardArray => {
                         cardArray.forEach(files => 
-                            fs.readFile(`./${projectName}/sets/${set}/cards/${files}`, "utf-8").then(card => 
+                            fs.readFile(`${projectName}/sets/${set}/cards/${files}`, "utf-8").then(card => 
                                 cardNames.push(`\n"${JSON.parse(card).name}",`)
                             )
                         )
                         fs.readFile(`${__dirname}/RFR/private/cardDatabase.js`, "utf-8").then(other => 
-                            fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/cardDatabase.js`, other.replace("${card_list}", '\n' + cardNames.join('')))
+                            fs.writeFile(`${projectName}/out/${filteredProjectName}/private/cardDatabase.js`, other.replace("${card_list}", '\n' + cardNames.join('')))
                         );
                     });
                 });
             });
         }
         if (project.includes("out"))
-            tfs.rmSync(`./${projectName}/out`, { recursive: true });
-        tfs.mkdirSync(`./${projectName}/out`)
-        fs.mkdir(`./${projectName}/out/${filteredProjectName}`).then(() => {
-            tfs.copyFileSync(`${__dirname}/RFR/package.json`, `./${projectName}/out/${filteredProjectName}/package.json`);
+            tfs.rmSync(`${projectName}/out`, { recursive: true });
+        tfs.mkdirSync(`${projectName}/out`)
+        fs.mkdir(`${projectName}/out/${filteredProjectName}`).then(() => {
+            tfs.copyFileSync(`${__dirname}/RFR/package.json`, `${projectName}/out/${filteredProjectName}/package.json`);
             
             fs.readFile(`${__dirname}/RFR/package.json`, "utf-8").then(package => {
-                fs.writeFile(`./${projectName}/out/${filteredProjectName}/package.json`, package
+                fs.writeFile(`${projectName}/out/${filteredProjectName}/package.json`, package
                     .replace("refrain-replace-name", projectProperties.package_lock_name)
                     .replace("refrain-replace-version", projectProperties.version)
                     .replace("refrain-replace-description", projectProperties.description)
                     .replace("refrain-replace-author", projectProperties.author)
                 );
             });
-            tfs.copyFileSync(`${__dirname}/RFR/server.js`, `./${projectName}/out/${filteredProjectName}/server.js`);
+            tfs.copyFileSync(`${__dirname}/RFR/server.js`, `${projectName}/out/${filteredProjectName}/server.js`);
 
-            fs.mkdir(`./${projectName}/out/${filteredProjectName}/public`).then(() => {
+            fs.mkdir(`${projectName}/out/${filteredProjectName}/public`).then(() => {
                 out();
 
-                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/public/cardArt`);
+                tfs.mkdirSync(`${projectName}/out/${filteredProjectName}/public/cardArt`);
 
-                fs.copyDir(`./${projectName}/visuals/assets`, `./${projectName}/out/${filteredProjectName}/public/assets`);
+                fs.copyDir(`${projectName}/visuals/assets`, `${projectName}/out/${filteredProjectName}/public/assets`);
 
-                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/public/js`);
-                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/public/js/outward`);
-                tfs.copyFileSync(`./${projectName}/visuals/rendering/renderField.js`, `./${projectName}/out/${filteredProjectName}/public/js/outward/renderField.mjs`);
+                tfs.mkdirSync(`${projectName}/out/${filteredProjectName}/public/js`);
+                tfs.mkdirSync(`${projectName}/out/${filteredProjectName}/public/js/outward`);
+                tfs.copyFileSync(`${projectName}/visuals/rendering/renderField.js`, `${projectName}/out/${filteredProjectName}/public/js/outward/renderField.mjs`);
 
-                fs.copyDir(`${__dirname}/RFR/public/js/preRendering`, `./${projectName}/out/${filteredProjectName}/public/js/preRendering`);
-                tfs.copyFileSync(`${__dirname}/RFR/public/js/app.mjs`, `./${projectName}/out/${filteredProjectName}/public/js/app.mjs`);
+                fs.copyDir(`${__dirname}/RFR/public/js/preRendering`, `${projectName}/out/${filteredProjectName}/public/js/preRendering`);
+                tfs.copyFileSync(`${__dirname}/RFR/public/js/app.mjs`, `${projectName}/out/${filteredProjectName}/public/js/app.mjs`);
             });
 
-            fs.mkdir(`./${projectName}/out/${filteredProjectName}/private`).then(() => {
+            fs.mkdir(`${projectName}/out/${filteredProjectName}/private`).then(() => {
                 sets();
                 
 
                 fs.readFile(`${__dirname}/RFR/private/game.js`, "utf-8").then(other => {
                     let text = "";
+                    Object.keys(gameJson).forEach(key => { if (typeof gameJson[key] == "string") {gameJson[key] = '`' + gameJson[key] + '`' } else if (typeof gameJson[key] == "object" && (gameJson[key]?.length == 0 || Object.keys(gameJson)?.length == 0)) {gameJson[key] = "[]";} });;
                     Object.keys(gameJson).forEach(key => text += `\nthis.${snakeCase(key)} = ${gameJson[key]};`)
-                    fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/game.js`, other.replace("${game_json}", text));
+                    fs.writeFile(`${projectName}/out/${filteredProjectName}/private/game.js`, other.replace("${game_json}", text));
                 });
                 fs.readFile(`${__dirname}/RFR/private/itemizeDecklist.js`, "utf-8").then(other => {
-                    fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/itemizeDecklist.js`, other
+                    fs.writeFile(`${projectName}/out/${filteredProjectName}/private/itemizeDecklist.js`, other
                         .replace("${width}", cardsJson.width)
                         .replace("${height}", cardsJson.height)
                         .replace("/*", "")
@@ -269,24 +270,24 @@ if (type.toLowerCase() == "compile") {
                     other = other.replace("${player_json}", text);
                     text = "";
                     Object.keys(playerMethods).forEach(key => {
-                        fs.readFile(`./${projectName}/game/playerMethods/${playerMethods[key]}`, "utf-8").then(index => {text += '\n' + index.replace("function " + key, key);}).then(() => {
-                            fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/player.js`, other.replace("${player_methods}", text))
+                        fs.readFile(`${projectName}/game/playerMethods/${playerMethods[key]}`, "utf-8").then(index => {text += '\n' + index.replace("function " + key, key);}).then(() => {
+                            fs.writeFile(`${projectName}/out/${filteredProjectName}/private/player.js`, other.replace("${player_methods}", text))
                         });
                     });
                 });
-                fs.readdir(`./${projectName}/sets`).then(sets => {
+                fs.readdir(`${projectName}/sets`).then(sets => {
                     sets.forEach(set => {
-                        fs.readdir(`./${projectName}/sets/${set}/art`).then(artworks => {
+                        fs.readdir(`${projectName}/sets/${set}/art`).then(artworks => {
                             artworks.forEach(art =>
-                                fs.copyFile(`./${projectName}/sets/${set}/art/${art}`, `./${projectName}/out/${filteredProjectName}/public/cardArt/${art}`)
+                                fs.copyFile(`${projectName}/sets/${set}/art/${art}`, `${projectName}/out/${filteredProjectName}/public/cardArt/${art}`)
                             );
                         })
                     });
                 });
-                tfs.copyFileSync(`${__dirname}/RFR/private/sanitizeCard.js`, `./${projectName}/out/${filteredProjectName}/private/sanitizeCard.js`);
-                tfs.copyFileSync(`${__dirname}/RFR/private/socketHandler.js`, `./${projectName}/out/${filteredProjectName}/private/socketHandler.js`);
-                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/private/outward`);
-                fs.copyDir(`./${projectName}/game`, `./${projectName}/out/${filteredProjectName}/private/outward`);
+                tfs.copyFileSync(`${__dirname}/RFR/private/sanitizeCard.js`, `${projectName}/out/${filteredProjectName}/private/sanitizeCard.js`);
+                tfs.copyFileSync(`${__dirname}/RFR/private/socketHandler.js`, `${projectName}/out/${filteredProjectName}/private/socketHandler.js`);
+                tfs.mkdirSync(`${projectName}/out/${filteredProjectName}/private/outward`);
+                fs.copyDir(`${projectName}/game`, `${projectName}/out/${filteredProjectName}/private/outward`);
             });
         });
     });
