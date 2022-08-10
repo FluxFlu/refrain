@@ -136,33 +136,34 @@ if (type.toLowerCase() == "compile") {
     let cardsJson;
     let screenJson;
     
-    const projectName = name ? '/' + name : "";
-    fs.readdir(`.${projectName}`).then(project => {
-        fs.readFile(`.${projectName}/properties.json`, "utf-8").then(properties => {
+    const projectName = name ? name : "./";
+    filteredProjectName = projectName.replaceAll("../", "./");
+    fs.readdir(`./${projectName}`).then(project => {
+        fs.readFile(`./${projectName}/properties.json`, "utf-8").then(properties => {
             properties = JSON.parse(properties);
             originalProjectName = properties["name_of_card_game"] ?? originalProjectName;
         });
-        fs.readFile(`.${projectName}/gameProperties.json`, "utf-8").then(properties => {
+        fs.readFile(`./${projectName}/gameProperties.json`, "utf-8").then(properties => {
             gameJson = JSON.parse(properties);
         });
-        fs.readFile(`.${projectName}/playerProperties.json`, "utf-8").then(properties => {
+        fs.readFile(`./${projectName}/playerProperties.json`, "utf-8").then(properties => {
             playerJson = JSON.parse(properties);
         });
-        fs.readFile(`.${projectName}/game/playerMethods/methods.json`, "utf-8").then(methods => {
+        fs.readFile(`./${projectName}/game/playerMethods/methods.json`, "utf-8").then(methods => {
             playerMethods = JSON.parse(methods);
         });
-        fs.readFile(`.${projectName}/cardProperties.json`, "utf-8").then(properties => {
+        fs.readFile(`./${projectName}/cardProperties.json`, "utf-8").then(properties => {
             projectProperties = JSON.parse(properties);
         });
-        fs.readdir(`.${projectName}/visuals`).then(project => {
+        fs.readdir(`./${projectName}/visuals`).then(project => {
             if (project.includes("cards.json"))
-                fs.readFile(`.${projectName}/visuals/cards.json`, "utf-8").then(properties => {
+                fs.readFile(`./${projectName}/visuals/cards.json`, "utf-8").then(properties => {
                     cardsJson = JSON.parse(properties);
                 })
         });
-        fs.readdir(`.${projectName}/visuals`).then(project => {
+        fs.readdir(`./${projectName}/visuals`).then(project => {
             if (project.includes("screen.json"))
-                fs.readFile(`.${projectName}/visuals/screen.json`, "utf-8").then(properties => {
+                fs.readFile(`./${projectName}/visuals/screen.json`, "utf-8").then(properties => {
                     screenJson = JSON.parse(properties);
                 })
         });
@@ -170,7 +171,7 @@ if (type.toLowerCase() == "compile") {
             fs.readFile(`${__dirname}/RFR/public/index.ktml`, "utf-8").then(index => {
                 const width_over_height = +screenJson.window_width / +screenJson.window_height * 100;
                 const height_over_width = +screenJson.window_height / +screenJson.window_width * 100;
-                fs.writeFile(`.${projectName}/out/${projectName}/public/index.html`, index
+                fs.writeFile(`./${projectName}/out/${filteredProjectName}/public/index.html`, index
                     .replace("${projectName}", originalProjectName)
                     .replace("${matchmaking}", screenJson.matchmaking_button_text)
                     .replace("${background_color}", screenJson.background_color)
@@ -184,78 +185,78 @@ if (type.toLowerCase() == "compile") {
             });
         }
         const sets = () => {
-            fs.readdir(`.${projectName}/sets`).then(sets => {
+            fs.readdir(`./${projectName}/sets`).then(sets => {
                 sets.forEach(set => {
-                    fs.readdir(`.${projectName}/sets/${set}/art`).then(artworks => {
+                    fs.readdir(`./${projectName}/sets/${set}/art`).then(artworks => {
                         artworks.forEach(art =>
-                            fs.copyFile(`.${projectName}/sets/${set}/art/${art}`, `.${projectName}/out/${projectName}/public/cardArt/${art}`)
+                            fs.copyFile(`./${projectName}/sets/${set}/art/${art}`, `./${projectName}/out/${filteredProjectName}/public/cardArt/${art}`)
                         );
                     });
-                    fs.readdir(`.${projectName}/sets/${set}/code`).then(codeArray => {
+                    fs.readdir(`./${projectName}/sets/${set}/code`).then(codeArray => {
                         codeArray.forEach(files => 
-                            fs.readFile(`.${projectName}/sets/${set}/code/${files}`, "utf-8").then(code => 
+                            fs.readFile(`./${projectName}/sets/${set}/code/${files}`, "utf-8").then(code => 
                                 cardCode.push(code.replace("return ", `"${snakeCase(code.match(/(?<=(,|{)\s?(\r\n|\n|\r)\s*name: ?").*(?=",$)/gm)[0])}": `) + '\n')
                             )
                         );
                         fs.readFile(`${__dirname}/RFR/private/gameDatabase.js`, "utf-8").then(other => 
-                            fs.writeFile(`.${projectName}/out/${projectName}/private/gameDatabase.js`, other.replace("${card_list}", '\n' + cardCode.join(',')))
+                            fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/gameDatabase.js`, other.replace("${card_list}", '\n' + cardCode.join(',')))
                         );
                     });
-                    fs.readdir(`.${projectName}/sets/${set}/cards`).then(cardArray => {
+                    fs.readdir(`./${projectName}/sets/${set}/cards`).then(cardArray => {
                         cardArray.forEach(files => 
-                            fs.readFile(`.${projectName}/sets/${set}/cards/${files}`, "utf-8").then(card => 
+                            fs.readFile(`./${projectName}/sets/${set}/cards/${files}`, "utf-8").then(card => 
                                 cardNames.push(`\n"${JSON.parse(card).name}",`)
                             )
                         )
                         fs.readFile(`${__dirname}/RFR/private/cardDatabase.js`, "utf-8").then(other => 
-                            fs.writeFile(`.${projectName}/out/${projectName}/private/cardDatabase.js`, other.replace("${card_list}", '\n' + cardNames.join('')))
+                            fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/cardDatabase.js`, other.replace("${card_list}", '\n' + cardNames.join('')))
                         );
                     });
                 });
             });
         }
         if (project.includes("out"))
-            tfs.rmSync(`.${projectName}/out`, { recursive: true });
-        tfs.mkdirSync(`.${projectName}/out`)
-        fs.mkdir(`.${projectName}/out/${projectName}`).then(() => {
-            tfs.copyFileSync(`${__dirname}/RFR/package.json`, `.${projectName}/out/${projectName}/package.json`);
+            tfs.rmSync(`./${projectName}/out`, { recursive: true });
+        tfs.mkdirSync(`./${projectName}/out`)
+        fs.mkdir(`./${projectName}/out/${filteredProjectName}`).then(() => {
+            tfs.copyFileSync(`${__dirname}/RFR/package.json`, `./${projectName}/out/${filteredProjectName}/package.json`);
             
             fs.readFile(`${__dirname}/RFR/package.json`, "utf-8").then(package => {
-                fs.writeFile(`.${projectName}/out/${projectName}/package.json`, package
+                fs.writeFile(`./${projectName}/out/${filteredProjectName}/package.json`, package
                     .replace("refrain-replace-name", projectProperties.package_lock_name)
                     .replace("refrain-replace-version", projectProperties.version)
                     .replace("refrain-replace-description", projectProperties.description)
                     .replace("refrain-replace-author", projectProperties.author)
                 );
             });
-            tfs.copyFileSync(`${__dirname}/RFR/server.js`, `.${projectName}/out/${projectName}/server.js`);
+            tfs.copyFileSync(`${__dirname}/RFR/server.js`, `./${projectName}/out/${filteredProjectName}/server.js`);
 
-            fs.mkdir(`.${projectName}/out/${projectName}/public`).then(() => {
+            fs.mkdir(`./${projectName}/out/${filteredProjectName}/public`).then(() => {
                 out();
 
-                tfs.mkdirSync(`.${projectName}/out/${projectName}/public/cardArt`);
+                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/public/cardArt`);
 
-                fs.copyDir(`.${projectName}/visuals/assets`, `.${projectName}/out/${projectName}/public/assets`);
+                fs.copyDir(`./${projectName}/visuals/assets`, `./${projectName}/out/${filteredProjectName}/public/assets`);
 
-                tfs.mkdirSync(`.${projectName}/out/${projectName}/public/js`);
-                tfs.mkdirSync(`.${projectName}/out/${projectName}/public/js/outward`);
-                tfs.copyFileSync(`.${projectName}/visuals/rendering/renderField.js`, `.${projectName}/out/${projectName}/public/js/outward/renderField.mjs`);
+                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/public/js`);
+                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/public/js/outward`);
+                tfs.copyFileSync(`./${projectName}/visuals/rendering/renderField.js`, `./${projectName}/out/${filteredProjectName}/public/js/outward/renderField.mjs`);
 
-                fs.copyDir(`${__dirname}/RFR/public/js/preRendering`, `.${projectName}/out/${projectName}/public/js/preRendering`);
-                tfs.copyFileSync(`${__dirname}/RFR/public/js/app.mjs`, `.${projectName}/out/${projectName}/public/js/app.mjs`);
+                fs.copyDir(`${__dirname}/RFR/public/js/preRendering`, `./${projectName}/out/${filteredProjectName}/public/js/preRendering`);
+                tfs.copyFileSync(`${__dirname}/RFR/public/js/app.mjs`, `./${projectName}/out/${filteredProjectName}/public/js/app.mjs`);
             });
 
-            fs.mkdir(`.${projectName}/out/${projectName}/private`).then(() => {
+            fs.mkdir(`./${projectName}/out/${filteredProjectName}/private`).then(() => {
                 sets();
                 
 
                 fs.readFile(`${__dirname}/RFR/private/game.js`, "utf-8").then(other => {
                     let text = "";
                     Object.keys(gameJson).forEach(key => text += `\nthis.${snakeCase(key)} = ${gameJson[key]};`)
-                    fs.writeFile(`.${projectName}/out/${projectName}/private/game.js`, other.replace("${game_json}", text));
+                    fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/game.js`, other.replace("${game_json}", text));
                 });
                 fs.readFile(`${__dirname}/RFR/private/itemizeDecklist.js`, "utf-8").then(other => {
-                    fs.writeFile(`.${projectName}/out/${projectName}/private/itemizeDecklist.js`, other
+                    fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/itemizeDecklist.js`, other
                         .replace("${width}", cardsJson.width)
                         .replace("${height}", cardsJson.height)
                         .replace("/*", "")
@@ -268,24 +269,24 @@ if (type.toLowerCase() == "compile") {
                     other = other.replace("${player_json}", text);
                     text = "";
                     Object.keys(playerMethods).forEach(key => {
-                        fs.readFile(`.${projectName}/game/playerMethods/${playerMethods[key]}`, "utf-8").then(index => {text += '\n' + index.replace("function " + key, key);}).then(() => {
-                            fs.writeFile(`.${projectName}/out/${projectName}/private/player.js`, other.replace("${player_methods}", text))
+                        fs.readFile(`./${projectName}/game/playerMethods/${playerMethods[key]}`, "utf-8").then(index => {text += '\n' + index.replace("function " + key, key);}).then(() => {
+                            fs.writeFile(`./${projectName}/out/${filteredProjectName}/private/player.js`, other.replace("${player_methods}", text))
                         });
                     });
                 });
-                fs.readdir(`.${projectName}/sets`).then(sets => {
+                fs.readdir(`./${projectName}/sets`).then(sets => {
                     sets.forEach(set => {
-                        fs.readdir(`.${projectName}/sets/${set}/art`).then(artworks => {
+                        fs.readdir(`./${projectName}/sets/${set}/art`).then(artworks => {
                             artworks.forEach(art =>
-                                fs.copyFile(`.${projectName}/sets/${set}/art/${art}`, `.${projectName}/out/${projectName}/public/cardArt/${art}`)
+                                fs.copyFile(`./${projectName}/sets/${set}/art/${art}`, `./${projectName}/out/${filteredProjectName}/public/cardArt/${art}`)
                             );
                         })
                     });
                 });
-                tfs.copyFileSync(`${__dirname}/RFR/private/sanitizeCard.js`, `.${projectName}/out/${projectName}/private/sanitizeCard.js`);
-                tfs.copyFileSync(`${__dirname}/RFR/private/socketHandler.js`, `.${projectName}/out/${projectName}/private/socketHandler.js`);
-                tfs.mkdirSync(`.${projectName}/out/${projectName}/private/outward`);
-                fs.copyDir(`.${projectName}/game`, `.${projectName}/out/${projectName}/private/outward`);
+                tfs.copyFileSync(`${__dirname}/RFR/private/sanitizeCard.js`, `./${projectName}/out/${filteredProjectName}/private/sanitizeCard.js`);
+                tfs.copyFileSync(`${__dirname}/RFR/private/socketHandler.js`, `./${projectName}/out/${filteredProjectName}/private/socketHandler.js`);
+                tfs.mkdirSync(`./${projectName}/out/${filteredProjectName}/private/outward`);
+                fs.copyDir(`./${projectName}/game`, `./${projectName}/out/${filteredProjectName}/private/outward`);
             });
         });
     });
