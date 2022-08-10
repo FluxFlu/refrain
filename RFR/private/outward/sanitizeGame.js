@@ -15,7 +15,7 @@ function sanitizeGame(game, player) {
 
     // This function, `sanitizeGame`, must return a new version of the game object that can be safely passed to players.
     // It is okay to modify the original game object, as the version you have been passed is a deep clone that has already been partially sanitized.
-    // If your specific card game includes any other information that should be hidden from players, or you want to otherwise modify information before it is rendered, you should also be removing that here.
+    // If your specific card game includes any other information that should be hidden from players, or you want to otherwise modify information before it is rendered, you should also be doing that here.
         
         game.player2.hand = game.player2.hand.map(e => sanitize(e, player));
         game.player2.deck = game.player2.deck.map(e => sanitize(e, player));

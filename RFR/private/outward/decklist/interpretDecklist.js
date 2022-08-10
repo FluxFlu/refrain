@@ -1,6 +1,8 @@
 function interpretDecklist(decklist) {
     // Given a player submitted decklist, this function should turn the decklist into an array of card names.
 
+    // This function must always return an array.
+
     decklist = decklist.split(/\r\n|\r|\n/g); // Split the decklist into an array, splitting at each newline
     const numArray = [];
     decklist = decklist.map(e => { // *{ Split, for example, `decklist[i] = "4 White Rose"` into `num = 4; cardName = "white rose";`
