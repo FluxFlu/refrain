@@ -1,0 +1,6 @@
+{
+    "draw": "draw.js",
+    "drawMultiple": "drawMultiple.js",
+    "shuffle": "shuffle.js",
+    "mulligan": "mull.js"
+}

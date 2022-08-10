@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>${projectName}</title>
+  <style>
+    body {
+      background-color: ${background_color};
+      /* Make this change with the "background_color" property in titleScreen.json*/
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #title {
+      position: absolute;
+      left: 30vw;
+      top: 10vh;
+      width: 40vw;
+      height: 45vh;
+    }
+
+    #matchmake {
+      position: absolute;
+      left: 47.75vw;
+      top: 60vh;
+      width: 4.5vw;
+      height: 2.5vh;
+      z-index: 1;
+    }
+
+    #decklist {
+      position: absolute;
+      left: 47.75vw;
+      top: 70vh;
+      width: 4.5vw;
+      height: 5vh;
+      z-index: 1;
+    }
+
+    .card:hover {
+      outline: 0.2vh solid #cdcdcd;
+      display: inline;
+      top: 1.1vh;
+      left: 12.05vw;
+    }
+    
+    #background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    .div {
+      margin: 0;
+      padding: 0;
+      position: absolute;
+    }
+
+    #divh {
+      width: 100vw;
+      height: ${height_over_width}vw;
+      top: ${calc_height_over_width};
+      left: 0;
+    }
+
+    #divw {
+      width: ${width_over_height}vh;
+      height: 100vh;
+      top: 0;
+      left: ${calc_width_over_height};
+    }
+  </style>
+</head>
+
+<body id="body">
+  <img src="./assets/title.png" id="title" /><br>
+  <button id="matchmake">${matchmaking}</button>
+  <br>
+  <input type="file" id="decklist">
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./js/app.mjs" type="module" charset="utf-8"></script>
+  <script>
+    window.onload = () => {
+      const div = document.getElementById("div");
+      if (window.innerHeight * ${window_width} > window.innerWidth * ${window_height})
+        div.id = "divh";
+      else
+        div.id = "divw";
+      setInterval(() => {
+        if (window.innerHeight * ${window_width} > window.innerWidth * ${window_height})
+          div.id = "divh";
+        else
+          div.id = "divw";
+      }, 500);
+    }
+  </script>
+  <div id="div" class="div">
+    <img src="assets/board.png" id="background"><br>
+  </div>
+</body>
+
+</html>

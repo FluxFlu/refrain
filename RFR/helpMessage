@@ -1,0 +1,27 @@
+                              Refrain version 1.0.0
+--------------------------------------------------------------------------------
+  Usage
+--------------------------------------------------------------------------------
+  refrain <mode> <name> <--options>
+
+                                Available options
+--------------------------------------------------------------------------------
+  Options                                           Description
+--------------------------------------------------------------------------------
+  --help -h                                         Display help and then exit.
+
+                                 Available Input
+--------------------------------------------------------------------------------
+  Input                                             Description
+--------------------------------------------------------------------------------
+
+  mode                                               Either create or compile.
+  name                                               The name of the sub-directory to create/compile. If left out when creating, the default will be "newProject". If left out when compiling, the current directory will be compiled.
+
+                                      Modes
+--------------------------------------------------------------------------------
+  Input                                             Description
+--------------------------------------------------------------------------------
+
+  create                                             Create a new project directory in the current directory. This doesn't work properly if there is already a directory in the current directory with the same name as the project.
+  compile                                            Compile the current directory assuming it is a proper Refrain project.
